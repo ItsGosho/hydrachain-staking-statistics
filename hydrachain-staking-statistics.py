@@ -1,7 +1,7 @@
 import re
 import json
 
-file = open("test2.txt", "r")
+file = open(r'C:\Users\itsgo\Desktop\test2.txt', "r")
 usdToBGNRate = float(1.80)
 hydraPriceTodayUSD = float(2.00)
 byMonth = {}
