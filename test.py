@@ -10,18 +10,28 @@ class Transaction:
         self.amount = amount
         self.id = id
 
-test = pandas.read_csv(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
 
-for index, row in test.iterrows():
-    confirmed = row['Confirmed']
-    date = row['Date']
-    type = row['Type']
-    label = row['Label']
-    address = row['Address']
-    amount = row['Amount (HYDRA)']
-    ID = row['ID']
+def readTransactions():
+    transactionsCSV = pandas.read_csv(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
+    transactions = []
 
-    transaction = Transaction(confirmed, date, type, label, address, amount,  ID)
+    for index, row in transactionsCSV.iterrows():
+        confirmed = row['Confirmed']
+        date = row['Date']
+        type = row['Type']
+        label = row['Label']
+        address = row['Address']
+        amount = row['Amount (HYDRA)']
+        ID = row['ID']
+
+        transaction = Transaction(confirmed, date, type, label, address, amount, ID)
+        transactions.append(transaction)
+
+    return transactions
+
+transactions = readTransactions()
+
+for transaction in transactions:
 
     print(str(transaction.confirmed) + ' ' +
               str(transaction.date) + ' ' +
@@ -31,4 +41,3 @@ for index, row in test.iterrows():
                               str(transaction.amount) + ' ' +
                                   str(transaction.id))
     print('-------')
-
