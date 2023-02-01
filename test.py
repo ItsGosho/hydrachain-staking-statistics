@@ -16,18 +16,23 @@ def readTransactions(csvFilePath):
     transactions = []
 
     for index, row in transactionsCSV.iterrows():
-        confirmed = row['Confirmed']
-        date = row['Date']
-        type = row['Type']
-        label = row['Label']
-        address = row['Address']
-        amount = row['Amount (HYDRA)']
-        ID = row['ID']
 
-        transaction = Transaction(confirmed, date, type, label, address, amount, ID)
+        transaction = parseTransactionCSVRow(row)
         transactions.append(transaction)
 
     return transactions
+
+def parseTransactionCSVRow(row):
+    confirmed = row['Confirmed']
+    date = row['Date']
+    type = row['Type']
+    label = row['Label']
+    address = row['Address']
+    amount = row['Amount (HYDRA)']
+    ID = row['ID']
+
+    transaction = Transaction(confirmed, date, type, label, address, amount, ID)
+    return transaction;
 
 path = r'C:\Users\itsgo\Desktop\hydra-export-1.csv'
 transactions = readTransactions(path)
