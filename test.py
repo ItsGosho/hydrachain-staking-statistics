@@ -11,8 +11,8 @@ class Transaction:
         self.id = id
 
 
-def readTransactions():
-    transactionsCSV = pandas.read_csv(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
+def readTransactions(csvFilePath):
+    transactionsCSV = pandas.read_csv(csvFilePath)
     transactions = []
 
     for index, row in transactionsCSV.iterrows():
@@ -29,7 +29,8 @@ def readTransactions():
 
     return transactions
 
-transactions = readTransactions()
+path = r'C:\Users\itsgo\Desktop\hydra-export-1.csv'
+transactions = readTransactions(path)
 
 for transaction in transactions:
 
