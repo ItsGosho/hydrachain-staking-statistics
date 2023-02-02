@@ -9,6 +9,7 @@ def fetchHydraUSDPrice(date):
     response = requests.get(url)
     data = response.json()
 
+    print(data)
     return data['market_data']['current_price']['usd']
 
 def collectLastMonthDays(fromYear, fromMonth, toYear, toMonth):
@@ -22,7 +23,8 @@ def collectLastMonthDays(fromYear, fromMonth, toYear, toMonth):
             return lastMonthDays
 
         tuple = calendar.monthrange(fromYear, fromMonth)
-        lastMonthDays.append(tuple[1])
+        date = datetime(fromYear, fromMonth, tuple[1]).date()
+        lastMonthDays.append(date)
 
         fromMonth += 1
 
@@ -34,9 +36,13 @@ def getPrices():
     previousMonth = datetime.now() - relativedelta(months=1)
     lastMonthDays = collectLastMonthDays(2021, 1, previousMonth.year, previousMonth.month)
 
+    prices = []
+
     for lastMonthDay in lastMonthDays:
-        hydraPrices = fetchHydraUSDPrice()
+        hydraPriceUSD = fetchHydraUSDPrice(lastMonthDay)
+        prices.append({'test': float(hydraPriceUSD)})
 
+    return prices
 
-prices = getPrices()
-print(prices)
+asd = getPrices()
+print(asd)
