@@ -6,6 +6,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from tinydb import TinyDB, Query
 from datetime import datetime
+import date_utils
 
 class RateLimitException(Exception):
     pass
@@ -22,30 +23,9 @@ def fetchHydraUSDPrice(date):
     return data['market_data']['current_price']['usd']
 
 
-def collectLastMonthDays(fromYear, fromMonth, toYear, toMonth):
-    lastMonthDays = []
-
-    while True:
-        if fromYear > toYear:
-            return lastMonthDays
-
-        if fromYear == toYear and fromMonth > toMonth:
-            return lastMonthDays
-
-        tuple = calendar.monthrange(fromYear, fromMonth)
-        date = datetime(fromYear, fromMonth, tuple[1]).date()
-        lastMonthDays.append(date)
-
-        fromMonth += 1
-
-        if fromMonth == 13:
-            fromMonth = 1
-            fromYear += 1
-
-
 def getPrices():
     previousMonth = datetime.now() - relativedelta(months=1)
-    lastMonthDays = collectLastMonthDays(2021, 1, previousMonth.year, previousMonth.month)
+    lastMonthDays = date_utils.getLastMonthDays(2021, 1, previousMonth.year, previousMonth.month)
 
     prices = []
 
@@ -76,7 +56,7 @@ def getMissingLastMonthDays():
     hydraUSDRatesDates = getDates()
 
     previousMonth = datetime.now() - relativedelta(months=1)
-    lastMonthDays = collectLastMonthDays(2021, 1, previousMonth.year, previousMonth.month)
+    lastMonthDays = date_utils.getLastMonthDays(2021, 1, previousMonth.year, previousMonth.month)
 
     result = []
 
@@ -93,12 +73,14 @@ def insertRate(rate, date):
     hydraUSDRatesTable.insert({'rate': float(rate), 'date': date.strftime('%d-%m-%Y')})
 
 
-print("Initialization: Phase Hydra USD Prices")
-print("Note that the process may take time! That is due to the rate limiting from the free CoinGecko API!")
-
 #TODO: Retrieve from the database the last fetched date.
 
 missingLastMonthDays = getMissingLastMonthDays()
+
+if missingLastMonthDays:
+    print("Synchronization of the Hydra USD Prices is required.")
+    print("It may take some time depending, when you last used the program!")
+    print("That is due to rate limiting from CoinGecko's API!")
 
 for missingLastMonthDay in missingLastMonthDays:
 
