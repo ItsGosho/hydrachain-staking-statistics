@@ -16,5 +16,5 @@ hydraUSDRatesTable = database.table('hydra_usd_rates')
 
 testQuery = Query()
 result = hydraUSDRatesTable.search(testQuery.date =='01-02-2023')
-print(result)
+print(hydraUSDRatesTable.all())
 
