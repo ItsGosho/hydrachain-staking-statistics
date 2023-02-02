@@ -8,8 +8,6 @@ From year 2022 and month 11 (November) to year 2023 and month 2 (February)
 Result:
 [31, TODO:]
 """
-
-
 def collectLastMonthDays(fromYear, fromMonth, toYear, toMonth):
     lastMonthDays = []
 
