@@ -9,13 +9,12 @@ class CurrencyRates:
         self.rates = rates
 
 
-db = TinyDB('database.json')
-table = db.table('currency_rates')
+database = TinyDB('database.json')
+hydraUSDRatesTable = database.table('hydra_usd_rates')
 
-currencyRates = CurrencyRates('USD', datetime.now(), '')
+#hydraUSDRatesTable.insert({'rate': float(2.50), 'date': datetime.now().date().strftime('%d-%m-%Y')})
 
-#table.insert({'value': True})
-#table.insert(currencyRates)
-
-
+testQuery = Query()
+result = hydraUSDRatesTable.search(testQuery.date =='01-02-2023')
+print(result)
 
