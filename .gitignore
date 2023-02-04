@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#HydraChain  Staking Statistics
+
+hydrachain-staking-statistics.db

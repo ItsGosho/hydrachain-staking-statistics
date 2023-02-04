@@ -23,19 +23,6 @@ def fetchHydraUSDPrice(date):
     print(data)
     return data['market_data']['current_price']['usd']
 
-
-def getPrices():
-    previousMonth = datetime.now() - relativedelta(months=1)
-    lastMonthDays = date_utils.getLastMonthDays(2021, 1, previousMonth.year, previousMonth.month)
-
-    prices = []
-
-    for lastMonthDay in lastMonthDays:
-        hydraPriceUSD = fetchHydraUSDPrice(lastMonthDay)
-        prices.append({'test': float(hydraPriceUSD)})
-
-    return prices
-
 def getDates():
     database = TinyDB('database.json')
     hydraUSDRatesTable = database.table('hydra_usd_prices')
