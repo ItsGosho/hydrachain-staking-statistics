@@ -21,6 +21,9 @@ class RateLimitException(Exception):
 class GateawayTimeoutException(Exception):
     pass
 
+def getCurrentHydraPrice():
+    return _fetchHydraUSDPriceCurrent()
+
 """
 Fetch and store for faster access the not stored prices of the cryptocurrency hydra for
 all month's last days since it exists.
@@ -68,11 +71,39 @@ def getAllLastDayOfMonthPricesFormatted():
 
     return lastDayOfMonthPricesFormatted
 
+"""
+Fetch the current hydra's USD price using the CoinGecko's API.
+Note that there is a limit on the requests per minute. Due to that a RateLimitException will
+be thrown if the limit is exceeded.
+There is timeout of COIN_GECKO_REQUEST_TIMEOUT_SECONDS constant to the request. 
+If the timeout is exceeded a ReadTimeout exception will be raised.
+"""
+
+
+def _fetchHydraUSDPriceCurrent():
+    url = f"https://api.coingecko.com/api/v3/coins/hydra?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
+    logging.debug("Executing request to CoinGecko. URL: %s", url)
+    response = requests.get(url, timeout=COIN_GECKO_REQUEST_TIMEOUT_SECONDS)
+
+    if response.status_code == 504:
+        logging.debug("Request URL: %s resulted in 504 - gateaway timeout", url)
+        raise GateawayTimeoutException()
+
+    if response.status_code == 429:
+        logging.debug("Request URL: %s resulted in 429 - too many request", url)
+        raise RateLimitException("Due to using the free API of CoinGecko there is a limit of the request per minute.")
+
+    data = response.json()
+    logging.debug("Request URL: %s responded with data: %s", url, data)
+    return float(data['market_data']['current_price']['usd'])
+
 
 """
 Fetch the hydra's USD price at a given date using the CoinGecko's API.
 Note that there is a limit on the requests per minute. Due to that a RateLimitException will
 be thrown if the limit is exceeded.
+There is timeout of COIN_GECKO_REQUEST_TIMEOUT_SECONDS constant to the request. 
+If the timeout is exceeded a ReadTimeout exception will be raised.
 """
 
 
@@ -90,8 +121,8 @@ def _fetchHydraUSDPriceAtGivenDate(date):
         raise RateLimitException("Due to using the free API of CoinGecko there is a limit of the request per minute.")
 
     data = response.json()
-    logging.debug("Request URL: %s responded with date: %s", url, data)
-    return data['market_data']['current_price']['usd']
+    logging.debug("Request URL: %s responded with data: %s", url, data)
+    return float(data['market_data']['current_price']['usd'])
 
 
 """
