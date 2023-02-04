@@ -47,7 +47,7 @@ for transaction in transactions:
         byMonth[minedMonthYear] = obj
         continue
     if minedMonthYear in byMonth:
-        obj = byMonth[minedMonthYear];
+        obj = byMonth[minedMonthYear]
         obj["total"] = obj["total"] + minedAmount
         obj["transactions"] = obj["transactions"] + 1
         obj["blockMin"] = minedAmount if minedAmount < obj["blockMin"] else obj["blockMin"]

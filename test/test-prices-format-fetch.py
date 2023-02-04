@@ -100,7 +100,7 @@ hydraUSDPrices = hydraUSDPricesTable.all()
 result = {}
 
 for hydraUSDPrice in hydraUSDPrices:
-    date = '{d.month}/{d.day}'.format(d = datetime.strptime(hydraUSDPrice['date'], '%d-%m-%Y'))
+    date = '{d.month}/{d.year}'.format(d = datetime.strptime(hydraUSDPrice['date'], '%d-%m-%Y'))
     result[date] = float(hydraUSDPrice['price'])
 
 print(result)
