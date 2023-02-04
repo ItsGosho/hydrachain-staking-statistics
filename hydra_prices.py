@@ -21,12 +21,9 @@ class RateLimitException(Exception):
 class GateawayTimeoutException(Exception):
     pass
 
-
-
-
 """
 Fetch and store for faster access the not stored prices of the cryptocurrency hydra for
-all month's last days since it exists and return all of them.
+all month's last days since it exists.
 Note that it may take time for the synchronization according to how many last month days
 are not yet synchronized.
 That is due to the using of the free CoinGecko's API version for retrieving historical
@@ -60,17 +57,16 @@ def synchronizeAllMonthsPricesForLastMonthDay():
 
     logging.debug("Synchronization of %s Hydra's USD prices finished!", len(missingLastMonthDays))
 
-    hydraUSDPrices = _getDatabaseAllLastDayOfMonthPrices()
+def getAllLastDayOfMonthPricesFormatted():
+    allLastDayOfMonthPrices = _getDatabaseAllLastDayOfMonthPrices()
 
-    # Format result
+    lastDayOfMonthPricesFormatted = {}
 
-    result = {}
+    for lastDayOfMonthPrice in allLastDayOfMonthPrices:
+        date = '{d.month}/{d.year}'.format(d=datetime.strptime(lastDayOfMonthPrice['date'], '%d-%m-%Y'))
+        lastDayOfMonthPricesFormatted[date] = float(lastDayOfMonthPrice['price'])
 
-    for hydraUSDPrice in hydraUSDPrices:
-        date = '{d.month}/{d.year}'.format(d=datetime.strptime(hydraUSDPrice['date'], '%d-%m-%Y'))
-        result[date] = float(hydraUSDPrice['price'])
-
-    print(result)
+    return lastDayOfMonthPricesFormatted
 
 
 """
@@ -159,5 +155,5 @@ def _getDatabaseAllLastDayOfMonthPrices():
 
 
 # test
-logging.basicConfig(level=logging.DEBUG)
-synchronizeAllMonthsPricesForLastMonthDay()
+# logging.basicConfig(level=logging.DEBUG)
+# synchronizeAllMonthsPricesForLastMonthDay()
