@@ -23,12 +23,12 @@ def readTransactions(csvFilePath):
     return transactions
 
 def _parseTransactionCSVRow(row):
-    confirmed = row['Confirmed']
+    confirmed = bool(row['Confirmed'])
     date = datetime.strptime(row['Date'], '%Y-%m-%dT%H:%M:%S')
     type = row['Type']
     label = row['Label']
     address = row['Address']
-    amount = row['Amount (HYDRA)']
+    amount = float(row['Amount (HYDRA)'])
     ID = row['ID']
 
     return Transaction(confirmed, date, type, label, address, amount, ID)
