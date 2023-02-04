@@ -16,12 +16,12 @@ def readTransactions(csvFilePath):
 
     for index, row in transactionsCSV.iterrows():
 
-        transaction = parseTransactionCSVRow(row)
+        transaction = _parseTransactionCSVRow(row)
         transactions.append(transaction)
 
     return transactions
 
-def parseTransactionCSVRow(row):
+def _parseTransactionCSVRow(row):
     confirmed = row['Confirmed']
     date = row['Date']
     type = row['Type']
@@ -30,5 +30,4 @@ def parseTransactionCSVRow(row):
     amount = row['Amount (HYDRA)']
     ID = row['ID']
 
-    transaction = Transaction(confirmed, date, type, label, address, amount, ID)
-    return transaction
+    return Transaction(confirmed, date, type, label, address, amount, ID)
