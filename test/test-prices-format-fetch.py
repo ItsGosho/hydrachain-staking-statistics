@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from tinydb import TinyDB, Query
 from datetime import datetime
 import date_utils
+import database_service
 
 class RateLimitException(Exception):
     pass
@@ -67,11 +68,6 @@ def getMissingLastMonthDays():
 
     return result
 
-def insertRate(rate, date):
-    database = TinyDB('database.json')
-    hydraUSDRatesTable = database.table('hydra_usd_prices')
-    hydraUSDRatesTable.insert({'rate': float(rate), 'date': date.strftime('%d-%m-%Y')})
-
 
 #TODO: Retrieve from the database the last fetched date.
 
@@ -87,14 +83,27 @@ for missingLastMonthDay in missingLastMonthDays:
     fetchedSuccessful = False
     while not fetchedSuccessful:
         try:
-            hydraUSDPrice = fetchHydraUSDPrice(missingLastMonthDay)
+            hydraUSDPrice = database_service.HydraUSDPrice(fetchHydraUSDPrice(missingLastMonthDay), missingLastMonthDay)
             print(missingLastMonthDay)
-            insertRate(hydraUSDPrice, missingLastMonthDay)
+            database_service.insertHydraUSDPrice(hydraUSDPrice)
             fetchedSuccessful = True
         except RateLimitException:
             print("Sleeping for 15 seconds!")
             time.sleep(15)
 
+database = TinyDB('database.json')
+hydraUSDPricesTable = database.table('hydra_usd_prices')
+hydraUSDPrices = hydraUSDPricesTable.all()
+
+#Format result
+
+result = {}
+
+for hydraUSDPrice in hydraUSDPrices:
+    date = '{d.month}/{d.day}'.format(d = datetime.strptime(hydraUSDPrice['date'], '%d-%m-%Y'))
+    result[date] = float(hydraUSDPrice['price'])
+
+print(result)
 
 # asd = getPrices()
 # print(asd)
