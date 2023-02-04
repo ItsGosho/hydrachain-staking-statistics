@@ -1,7 +1,8 @@
 import re
 import json
+import hydra_transactions_reader
 
-file = open(r'C:\Users\itsgo\Desktop\test2.txt', "r")
+transactions = hydra_transactions_reader.readTransactions(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
 usdToBGNRate = float(1.80)
 hydraPriceTodayUSD = float(2.00)
 byMonth = {}
@@ -27,19 +28,18 @@ prices['8/21'] = float(18.18)
 prices['7/21'] = float(16.80)
 prices['6/21'] = float(28.42)
 
-for fileLine in file:
-    fileLineRegexSplit = re.split('([a-z0-9]+)([\/])([a-z0-9]+)([\/])([a-z0-9]+)(\s+)([0-9\:]+)(\s+)([0-9.]+)', fileLine)
-    
-    if(len(fileLineRegexSplit) < 11):
-      continue
-    
-    minedMonthYear = fileLineRegexSplit[1] + '/' + fileLineRegexSplit[5]
-    minedDate = fileLineRegexSplit[1] + '/' + fileLineRegexSplit[3] + '/' + fileLineRegexSplit[5]
-    minedHour = fileLineRegexSplit[7]
-    minedAmount = float(fileLineRegexSplit[9])
-    
+for transaction in transactions:
+
+    if transaction.type != "Mined":
+        continue
+
+    minedMonthYear = str(transaction.date.month) + '/' + str(transaction.date.year - 2000)
+    minedAmount = float(transaction.amount)
+
     if minedMonthYear not in byMonth:
-        obj = {"total": minedAmount, "transactions": int(1), "blockMin": minedAmount, "blockMax": minedAmount, "usdEndMonth": float(0), "bgnEndMonth": float(0), "usdEquivalentToday": float(0), "bgnEquivalentToday": float(0)}
+        obj = {"total": minedAmount, "transactions": int(1), "blockMin": minedAmount, "blockMax": minedAmount,
+               "usdEndMonth": float(0), "bgnEndMonth": float(0), "usdEquivalentToday": float(0),
+               "bgnEquivalentToday": float(0)}
         obj["usdEndMonth"] = prices[minedMonthYear] * minedAmount
         obj["bgnEndMonth"] = obj["usdEndMonth"] * usdToBGNRate
         obj["usdEquivalentToday"] = prices[minedMonthYear] * hydraPriceTodayUSD
@@ -57,15 +57,14 @@ for fileLine in file:
         obj["usdEquivalentToday"] = obj["total"] * hydraPriceTodayUSD
         obj["bgnEquivalentToday"] = obj["usdEquivalentToday"] * usdToBGNRate
         byMonth[minedMonthYear] = obj
-    
+
 print('Statistics by month:')
-print(json.dumps(byMonth, indent = 4))
+print(json.dumps(byMonth, indent=4))
 
 totalMined = float(0)
 totalTransactions = int(0)
 
 for byMonthStatistic in byMonth:
-    
     totalMined += byMonth[byMonthStatistic]["total"]
     totalTransactions += byMonth[byMonthStatistic]["transactions"]
 
@@ -75,5 +74,3 @@ print("Mined: " + str(totalMined))
 print("Transactions: " + str(totalTransactions))
 print("USD Equivalent Today:" + str((totalMined * hydraPriceTodayUSD)))
 print("BGN Equivalent Today:" + str((totalMined * hydraPriceTodayUSD) * usdToBGNRate))
-
-file.close()
