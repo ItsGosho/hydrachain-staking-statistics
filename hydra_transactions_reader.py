@@ -1,4 +1,5 @@
 import pandas
+from datetime import datetime
 
 class Transaction:
     def __init__(self, confirmed, date, type, label, address, amount, id):
@@ -23,7 +24,7 @@ def readTransactions(csvFilePath):
 
 def _parseTransactionCSVRow(row):
     confirmed = row['Confirmed']
-    date = row['Date']
+    date = datetime.strptime(row['Date'], '%Y-%m-%dT%H:%M:%S')
     type = row['Type']
     label = row['Label']
     address = row['Address']
