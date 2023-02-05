@@ -73,10 +73,10 @@ tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
 tableOverallStakingStatistics.field_names = ["Mined", "Transactions", "Today USD", "Today BGN"]
 tableOverallStakingStatistics.align = "r"
 tableOverallStakingStatistics.add_row([
-    totalMined,
+    round(totalMined, 2),
     totalTransactions,
-    (totalMined * hydraPriceTodayUSD),
-    (totalMined * hydraPriceTodayUSD) * usdToBGNRate
+    round(totalMined * hydraPriceTodayUSD, 2),
+    round((totalMined * hydraPriceTodayUSD) * usdToBGNRate, 2)
 ])
 
 print(tableOverallStakingStatistics)
