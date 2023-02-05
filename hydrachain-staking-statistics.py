@@ -4,7 +4,7 @@ import hydra_transactions_reader
 import hydra_prices
 
 transactions = hydra_transactions_reader.readTransactions(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
-usdToBGNRate = float(1.80)
+usdToBGNRate = float(1.80) #TODO:
 hydraPriceTodayUSD = hydra_prices.getCurrentHydraPrice()
 hydra_prices.synchronizeAllMonthsPricesForLastMonthDay()
 prices = hydra_prices.getAllLastDayOfMonthPricesFormatted()
