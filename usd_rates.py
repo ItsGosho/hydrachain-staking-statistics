@@ -43,7 +43,7 @@ def getAllLastDayOfMonthPricesFormatted():
     return lastDayOfMonthPricesFormatted
 
 
-def _fetchCurrentUSDRates():
+def fetchCurrentUSDRates():
     return _fetchRates('USD', datetime.now())
 
 
@@ -107,10 +107,3 @@ def _getDatabaseAllLastDayOfMonthPrices():
     logging.debug("Retrieved from database %s in table %s the record/s: %s", DATABASE_NAME,
                   LAST_DAY_OF_MONTH_USD_RATES_TABLE_NAME, lastDayOfMonthPrices)
     return lastDayOfMonthPrices
-
-logging.basicConfig(level=logging.DEBUG)
-synchronizeAllMonthsPricesForLastMonthDay()
-# data = fetchUSDRates(datetime.now())
-# print(data)
-
-print(getAllLastDayOfMonthPricesFormatted())
