@@ -15,7 +15,7 @@ tableMontlyStakingStatistics = pt(title="Monthly Staking Statistics")
 tableMontlyStakingStatistics.field_names = ["Month", "Transactions", "Mined",
                                             "Month End Price USD", "Month End USD", "Month End BGN",
                                             "Today USD", "Today BGN",
-                                            "Increase % Month-End -> Today", "Lowest Block", "Highest Block"]
+                                            "Increase % Month-End -> Today", "Lowest Block", "Highest Block", "Avg Block"]
 tableMontlyStakingStatistics.align = "r"
 
 for transaction in transactions:
@@ -51,12 +51,14 @@ for transaction in transactions:
 for byMonth in byMonths:
     usdEndMonth = round(byMonths[byMonth]["usdEndMonth"], 2)
     usdToday = round(byMonths[byMonth]["usdEquivalentToday"], 2)
+    transactions = byMonths[byMonth]["transactions"]
+    total = round(byMonths[byMonth]["total"], 2)
 
     percentageIncreaseMonthEndTodayUSD = (usdToday - usdEndMonth) / usdEndMonth * 100
     tableMontlyStakingStatistics.add_row([
         byMonth,
-        byMonths[byMonth]["transactions"],
-        round(byMonths[byMonth]["total"], 2),
+        transactions,
+        total,
         round(prices[byMonth], 2),
         usdEndMonth,
         round(byMonths[byMonth]["bgnEndMonth"], 2),
@@ -65,6 +67,7 @@ for byMonth in byMonths:
         str(round(percentageIncreaseMonthEndTodayUSD, 2)) + '%',
         round(byMonths[byMonth]["blockMin"], 2),
         round(byMonths[byMonth]["blockMax"], 2),
+        round(total / transactions , 2)
     ])
 
 print(tableMontlyStakingStatistics)
