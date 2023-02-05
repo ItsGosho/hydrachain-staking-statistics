@@ -12,8 +12,9 @@ prices = hydra_prices.getAllLastDayOfMonthPricesFormatted()
 
 byMonths = {}
 tableMontlyStakingStatistics = pt(title="Monthly Staking Statistics")
-tableMontlyStakingStatistics.field_names = ["Month", "Mined", "Transactions", "Lowest Block", "Highest Block", "Month End USD", "Month End BGN",
-                  "Today USD", "Today BGN"]
+tableMontlyStakingStatistics.field_names = ["Month", "Mined", "Transactions", "Lowest Block", "Highest Block",
+                                            "Month End USD", "Month End BGN",
+                                            "Today USD", "Today BGN"]
 tableMontlyStakingStatistics.align = "r"
 
 for transaction in transactions:
@@ -72,10 +73,10 @@ tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
 tableOverallStakingStatistics.field_names = ["Mined", "Transactions", "Today USD", "Today BGN"]
 tableOverallStakingStatistics.align = "r"
 tableOverallStakingStatistics.add_row([
-    str(totalMined),
-    str(totalTransactions),
-    str((totalMined * hydraPriceTodayUSD)),
-    str((totalMined * hydraPriceTodayUSD) * usdToBGNRate)
+    totalMined,
+    totalTransactions,
+    (totalMined * hydraPriceTodayUSD),
+    (totalMined * hydraPriceTodayUSD) * usdToBGNRate
 ])
 
 print(tableOverallStakingStatistics)
