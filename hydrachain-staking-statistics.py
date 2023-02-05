@@ -13,8 +13,9 @@ prices = hydra_prices.getAllLastDayOfMonthPricesFormatted()
 byMonths = {}
 tableMontlyStakingStatistics = pt(title="Monthly Staking Statistics")
 tableMontlyStakingStatistics.field_names = ["Month", "Mined", "Transactions", "Lowest Block", "Highest Block",
-                                            "Month End USD", "Month End BGN",
-                                            "Today USD", "Today BGN"]
+                                            "Month End Price USD", "Month End USD", "Month End BGN",
+                                            "Today USD", "Today BGN",
+                                            "Increase % Month-End -> Today"]
 tableMontlyStakingStatistics.align = "r"
 
 for transaction in transactions:
@@ -48,16 +49,22 @@ for transaction in transactions:
         byMonths[minedMonthYear] = obj
 
 for byMonth in byMonths:
+    usdEndMonth = round(byMonths[byMonth]["usdEndMonth"], 2)
+    usdToday = round(byMonths[byMonth]["usdEquivalentToday"], 2)
+
+    percentageIncreaseMonthEndTodayUSD = (usdToday - usdEndMonth) / usdEndMonth * 100
     tableMontlyStakingStatistics.add_row([
         byMonth,
         round(byMonths[byMonth]["total"], 2),
         byMonths[byMonth]["transactions"],
         round(byMonths[byMonth]["blockMin"], 2),
         round(byMonths[byMonth]["blockMax"], 2),
-        round(byMonths[byMonth]["usdEndMonth"], 2),
+        round(prices[byMonth], 2),
+        usdEndMonth,
         round(byMonths[byMonth]["bgnEndMonth"], 2),
-        round(byMonths[byMonth]["usdEquivalentToday"], 2),
+        usdToday,
         round(byMonths[byMonth]["bgnEquivalentToday"], 2),
+        str(round(percentageIncreaseMonthEndTodayUSD, 2)) + '%'
     ])
 
 print(tableMontlyStakingStatistics)
