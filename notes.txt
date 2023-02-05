@@ -1,0 +1,6 @@
+- Option to export the data from the tables into a json
+
+
+
+pyinstaller --onefile --hidden-import prettytable .\hydrachain-staking-statistics.py
+- Create the files as a executable. Note that if there is a missing module after the creation of the executable you must specify it as a hidden import.

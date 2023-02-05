@@ -4,7 +4,9 @@ import hydra_transactions_reader
 import hydra_prices
 import usd_rates
 from prettytable import PrettyTable as pt
+import logging
 
+logging.basicConfig(level = logging.INFO)
 WORKING_CURRENCY = "BGN"
 
 transactions = hydra_transactions_reader.readTransactions(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
