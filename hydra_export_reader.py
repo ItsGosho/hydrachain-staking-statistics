@@ -32,3 +32,6 @@ def _parseTransactionCSVRow(row):
     ID = row['ID']
 
     return Transaction(confirmed, date, type, label, address, amount, ID)
+
+#test = readMinedTransactions(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
+#print(test)

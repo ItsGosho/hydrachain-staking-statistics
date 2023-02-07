@@ -1,6 +1,6 @@
 import re
 import json
-import hydra_transactions_reader
+import hydra_export_reader
 import hydra_prices
 import usd_rates
 from prettytable import PrettyTable as pt
@@ -9,7 +9,7 @@ import logging
 logging.basicConfig(level = logging.INFO)
 WORKING_CURRENCY = "BGN"
 
-transactions = hydra_transactions_reader.readTransactions(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
+transactions = hydra_export_reader.readTransactions(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
 usdToSelectedCurrencyRate = usd_rates.fetchCurrentUSDRates()[WORKING_CURRENCY]
 hydraPriceTodayUSD = hydra_prices.getCurrentHydraPrice()
 hydra_prices.synchronizeAllMonthsPricesForLastMonthDay()

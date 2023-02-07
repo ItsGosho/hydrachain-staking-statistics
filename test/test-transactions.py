@@ -1,4 +1,4 @@
-import hydra_transactions_reader
+import hydra_export_reader
 
 path = r'C:\Users\itsgo\Desktop\hydra-export-1.csv'
 transactions = hydra_transactions_reader.readTransactions(path)
