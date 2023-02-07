@@ -1,5 +1,4 @@
 import sys
-
 import hydra_transactions_reader
 
 
@@ -13,9 +12,10 @@ class MonthlyStakingStatistic:
         self.highestBlock = 0
 
 """
-Create a monthly statistics of the provided transactions and returns a list of MonthlyStakingStatistic objects.
+Create a monthly statistics of the provided transactions and returns a dict of MonthlyStakingStatistic objects.
 Only information for Mined transactions will take place in the statistics.
 The price is hydra's last day of the month price
+The return dict key is a month in format month/year.
 """
 def getMonthlyStakingStatistics(transactions):
 
