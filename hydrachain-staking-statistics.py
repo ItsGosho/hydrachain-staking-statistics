@@ -19,7 +19,18 @@ hydraLastDayOfMonthPrices = hydra_prices.getAllLastDayOfMonthPricesFormatted()
 usd_rates.synchronizeAllMonthsPricesForLastMonthDay()
 usdRatesLastDayOfMonth = usd_rates.getAllLastDayOfMonthPricesFormatted()
 
-byMonths = {}
+monthlyStakingStatistics = hydra_export_statistics.getMonthlyStakingStatistics(transactions)
+monthlyStakingExtendedStatistics = hydra_extended_statistics.getMonthlyStakingExtendedStatistics(
+    monthlyStakingStatistics,
+    hydraLastDayOfMonthPrices,
+    usdRatesLastDayOfMonth,
+    hydraPriceTodayUSD,
+    usdToSelectedCurrencyRate,
+    WORKING_CURRENCY)
+
+totalTransactionsOverall = 0
+totalIncomeHydraOverall = 0
+
 tableMontlyStakingStatistics = pt(title="Monthly Staking Statistics")
 tableMontlyStakingStatistics.field_names = [
     "Month",
@@ -35,16 +46,11 @@ tableMontlyStakingStatistics.field_names = [
 ]
 tableMontlyStakingStatistics.align = "r"
 
-monthlyStakingStatistics = hydra_export_statistics.getMonthlyStakingStatistics(transactions)
-monthlyStakingExtendedStatistics = hydra_extended_statistics.getMonthlyStakingExtendedStatistics(monthlyStakingStatistics,
-                                                                       hydraLastDayOfMonthPrices,
-                                                                       usdRatesLastDayOfMonth,
-                                                                       hydraPriceTodayUSD,
-                                                                       usdToSelectedCurrencyRate,
-                                                                       WORKING_CURRENCY)
-
 for monthlyStakingExtendedStatisticDate in monthlyStakingExtendedStatistics:
     monthlyStakingExtendedStatistic = monthlyStakingExtendedStatistics[monthlyStakingExtendedStatisticDate]
+
+    totalTransactionsOverall += monthlyStakingExtendedStatistic.totalTransactions
+    totalIncomeHydraOverall += monthlyStakingExtendedStatistic.totalIncomeHydra
 
     tableMontlyStakingStatistics.add_row([
         monthlyStakingExtendedStatisticDate,
@@ -62,20 +68,15 @@ for monthlyStakingExtendedStatisticDate in monthlyStakingExtendedStatistics:
 
 print(tableMontlyStakingStatistics)
 
-# totalMined = float(0)
-# totalTransactions = int(0)
-#
-# for byMonthStatistic in byMonths:
-#     totalMined += byMonths[byMonthStatistic]["total"]
-#     totalTransactions += byMonths[byMonthStatistic]["transactions"]
-#
-# tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
-# tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Today {}".format(WORKING_CURRENCY)]
-# tableOverallStakingStatistics.align = "r"
-# tableOverallStakingStatistics.add_row([
-#     totalTransactions,
-#     round(totalMined, 2),
-#     round(totalMined * hydraPriceTodayUSD * usdToSelectedCurrencyRate, 2),
-# ])
-#
-# print(tableOverallStakingStatistics)
+#Overall Staking Statistics
+
+tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
+tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Today {}".format(WORKING_CURRENCY)]
+tableOverallStakingStatistics.align = "r"
+tableOverallStakingStatistics.add_row([
+    totalTransactionsOverall,
+    round(totalIncomeHydraOverall, 2),
+    round(totalIncomeHydraOverall * hydraPriceTodayUSD * usdToSelectedCurrencyRate, 2),
+])
+
+print(tableOverallStakingStatistics)
