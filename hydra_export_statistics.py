@@ -5,12 +5,20 @@ import hydra_export_reader
 
 class MonthlyStakingStatistic:
 
-    def __init__(self, month):
+    def __init__(self,
+                 month='',
+                 totalTransactions = 0,
+                 totalIncomeHydra = 0,
+                 lowestBlock = 0,
+                 highestBlock = 0,
+                 avgBlock = 0
+                 ):
         self.month = month
-        self.totalTransactions = 0
-        self.totalIncomeHydra = 0
-        self.lowestBlock = 0
-        self.highestBlock = 0
+        self.totalTransactions = totalTransactions
+        self.totalIncomeHydra = totalIncomeHydra
+        self.lowestBlock = lowestBlock
+        self.highestBlock = highestBlock
+        self.avgBlock = avgBlock
 
 """
 Create a monthly statistics of the provided transactions and returns a dict of MonthlyStakingStatistic objects.
@@ -30,7 +38,7 @@ def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
         month = transaction.date.strftime(dateFormat)
 
         if month not in monthlyStakingStatistics:
-            monthlyStakingStatistics[month] = MonthlyStakingStatistic(month)
+            monthlyStakingStatistics[month] = MonthlyStakingStatistic(month = month)
 
         monthlyStakingStatistic = monthlyStakingStatistics[month]
 
@@ -38,10 +46,12 @@ def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
         monthlyStakingStatistic.totalIncomeHydra += transaction.amount
 
         currentLowestBlock = sys.maxsize if monthlyStakingStatistic.lowestBlock == 0 else monthlyStakingStatistic.lowestBlock
-        currentHighestBlock = sys.maxsize if monthlyStakingStatistic.highestBlock == 0 else monthlyStakingStatistic.highestBlock
+        currentHighestBlock = -sys.maxsize-1 if monthlyStakingStatistic.highestBlock == 0 else monthlyStakingStatistic.highestBlock
 
         monthlyStakingStatistic.lowestBlock = transaction.amount if transaction.amount < currentLowestBlock else currentLowestBlock
-        monthlyStakingStatistic.highestBlock = transaction.amount if transaction.amount < currentHighestBlock else currentHighestBlock
+        monthlyStakingStatistic.highestBlock = transaction.amount if transaction.amount > currentHighestBlock else currentHighestBlock
+
+        monthlyStakingStatistic.avgBlock = monthlyStakingStatistic.totalIncomeHydra / monthlyStakingStatistic.totalTransactions
 
     return monthlyStakingStatistics
 
