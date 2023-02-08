@@ -49,7 +49,7 @@ for monthlyStakingExtendedStatisticDate in monthlyStakingExtendedStatistics:
     tableMontlyStakingStatistics.add_row([
         monthlyStakingExtendedStatisticDate,
         monthlyStakingExtendedStatistic.totalTransactions,
-        monthlyStakingExtendedStatistic.totalIncomeHydra,
+        round(monthlyStakingExtendedStatistic.totalIncomeHydra, 2),
         round(monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD, 2),
         round(monthlyStakingExtendedStatistic.incomeEndMonth, 2),
         round(monthlyStakingExtendedStatistic.incomeToday, 2),
