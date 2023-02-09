@@ -9,7 +9,7 @@ import arguments
 
 hydrachainArguments = arguments.HydraChainArguments()
 
-logging.basicConfig(level=hydrachainArguments.getLogLevel(), format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
+logging.basicConfig(level=hydrachainArguments.getLogLevel(), format='[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s')
 logging.debug('Provided arguments %s', hydrachainArguments.getArguments())
 
 currency = hydrachainArguments.getCurrency()
