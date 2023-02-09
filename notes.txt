@@ -1,5 +1,6 @@
 - Option to export the data from the tables into a json
 - Option to pass as argument the rounding for the table for each column that has rounding
+- Argument to select, which of the table columns to be visualized by name
 
 
 
