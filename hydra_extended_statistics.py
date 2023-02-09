@@ -1,3 +1,5 @@
+import json
+
 from hydra_export_statistics import MonthlyStakingStatistic, getMonthlyStakingStatistics
 
 
@@ -24,6 +26,13 @@ class MonthlyStakingExtendedStatistics(MonthlyStakingStatistic):
         self.incomeDiff = incomeDiff
         self.currency = currency
         self.usdToCurrencyRate = usdToCurrencyRate
+
+    def __str__(self):
+        return json.dumps(self.__dict__, default=str)
+    def __unicode__(self):
+        return json.dumps(self.__dict__, default=str)
+    def __repr__(self):
+        return json.dumps(self.__dict__, default=str)
 
 def getMonthlyStakingExtendedStatistics(monthlyStakingStatistics,
                                         hydraLastDayOfMonthPricesUSD,

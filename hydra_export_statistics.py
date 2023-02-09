@@ -1,3 +1,4 @@
+import json
 import sys
 
 import hydra_export_reader
@@ -21,6 +22,13 @@ class MonthlyStakingStatistic:
         self.lowestBlock = lowestBlock
         self.highestBlock = highestBlock
         self.avgBlock = avgBlock
+
+    def __str__(self):
+        return json.dumps(self.__dict__, default=str)
+    def __unicode__(self):
+        return json.dumps(self.__dict__, default=str)
+    def __repr__(self):
+        return json.dumps(self.__dict__, default=str)
 
 """
 Create a monthly statistics of the provided transactions and returns a dict of MonthlyStakingStatistic objects.

@@ -1,3 +1,5 @@
+import json
+
 import pandas
 from datetime import datetime
 
@@ -10,6 +12,13 @@ class Transaction:
         self.address = address
         self.amount = amount
         self.id = id
+
+    def __str__(self):
+        return json.dumps(self.__dict__, default=str)
+    def __unicode__(self):
+        return json.dumps(self.__dict__, default=str)
+    def __repr__(self):
+        return json.dumps(self.__dict__, default=str)
 
 def readTransactions(csvFilePath):
     transactionsCSV = pandas.read_csv(csvFilePath)

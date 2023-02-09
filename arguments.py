@@ -86,3 +86,6 @@ class HydraChainArguments:
 
     def getArgument(self, argumentName):
         return self.arguments.__getattribute__(argumentName)
+
+    def getArguments(self):
+        return self.arguments

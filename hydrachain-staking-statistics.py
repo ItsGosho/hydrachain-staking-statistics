@@ -8,11 +8,15 @@ import hydra_extended_statistics
 import arguments
 
 hydrachainArguments = arguments.HydraChainArguments()
-logging.basicConfig(level=hydrachainArguments.getLogLevel())
-WORKING_CURRENCY = hydrachainArguments.getCurrency()
 
+logging.basicConfig(level=hydrachainArguments.getLogLevel())
+logging.debug('Provided arguments %s', hydrachainArguments.getArguments())
+
+currency = hydrachainArguments.getCurrency()
 transactions = hydra_export_reader.readTransactions(hydrachainArguments.getCSVFilePath())
-usdToSelectedCurrencyRate = usd_rates.fetchCurrentUSDRates()[WORKING_CURRENCY]
+logging.debug('Read transactions %s', transactions)
+
+usdToSelectedCurrencyRate = usd_rates.fetchCurrentUSDRates()[currency]
 hydraPriceTodayUSD = hydra_prices.getCurrentHydraPrice()
 hydra_prices.synchronizeAllMonthsPricesForLastMonthDay()
 hydraLastDayOfMonthPrices = hydra_prices.getAllLastDayOfMonthPricesFormatted()
@@ -26,7 +30,7 @@ monthlyStakingExtendedStatistics = hydra_extended_statistics.getMonthlyStakingEx
     usdRatesLastDayOfMonth,
     hydraPriceTodayUSD,
     usdToSelectedCurrencyRate,
-    WORKING_CURRENCY)
+    currency)
 
 totalTransactionsOverall = 0
 totalIncomeHydraOverall = 0
@@ -37,9 +41,9 @@ tableMontlyStakingStatistics.field_names = [
     "Transactions",
     "Mined",
     "Month End Price USD",
-    "Month End {}".format(WORKING_CURRENCY),
-    "Today {}".format(WORKING_CURRENCY),
-    "Diff {}".format(WORKING_CURRENCY),
+    "Month End {}".format(currency),
+    "Today {}".format(currency),
+    "Diff {}".format(currency),
     "Lowest Block",
     "Highest Block",
     "Avg Block"
@@ -71,7 +75,7 @@ print(tableMontlyStakingStatistics)
 #Overall Staking Statistics
 
 tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
-tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Today {}".format(WORKING_CURRENCY)]
+tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Today {}".format(currency)]
 tableOverallStakingStatistics.align = "r"
 tableOverallStakingStatistics.add_row([
     totalTransactionsOverall,
