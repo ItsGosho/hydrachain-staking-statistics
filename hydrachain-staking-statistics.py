@@ -7,9 +7,13 @@ import logging
 import hydra_extended_statistics
 import arguments
 
+LOG_FORMAT = '[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s'
+HYDRACHAIN_STAKING_STATISTICS_VERSION = '2.0.0'
+
 hydrachainArguments = arguments.HydraChainArguments()
 
-logging.basicConfig(level=hydrachainArguments.getLogLevel(), format='[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s')
+logging.basicConfig(level=hydrachainArguments.getLogLevel(), format=LOG_FORMAT)
+logging.info("Hydrachain Staking Statistics v%s", HYDRACHAIN_STAKING_STATISTICS_VERSION)
 logging.debug('Provided arguments %s', hydrachainArguments.getArguments())
 
 currency = hydrachainArguments.getCurrency()
