@@ -1,37 +1,37 @@
 # Hydrachain Staking Statistics
-A console based tool for generating staking statistics from a exported csv file.
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/ItsGosho/hydrachain-staking-statistics/blob/main/LICENSE)
+[![Version](https://img.shields.io/github/v/release/ItsGosho/Button-Enhanced?include_prereleases)](https://github.com/ItsGosho/hydrachain-staking-statistics/releases)
+
+A console based tool for generating staking statistics from a exported csv file. View by each month how much hydra you have acquired from staking, the earned reward in selected currency and additional statistics. The program is open-source and requires no payment for usage thanks to the used APIs.
 
 
 
-- **Usage**:
+## Usage:
 
-  
+**Download the latest version** from [here](https://github.com/ItsGosho/hydrachain-staking-statistics/releases) and store the **hydrachain-staking-statistics.exe** somewhere.
 
-  **Download the latest version** from [here](https://github.com/ItsGosho/hydrachain-staking-statistics/releases) and store the **hydrachain-staking-statistics.exe** somewhere.
+**Export your transactions data** from the **Hydra GUI Interface** by going to the **Transactions** tab and clicking at the **Export** button down right.
 
-  **Export your transactions data** from the **Hydra GUI Interface** by going to the **Transactions** tab and clicking at the **Export** button down right.
+**Run the program** by opening a **Windows Terminal** and providing the **exported file** as **argument**.
 
-  **Run the program** by opening a **Windows Terminal** and providing the **exported file** as **argument**.
+- `.\hydrachain-staking-statistics.exe --csv-file-path "C:\Users\itsgo\Desktop\hydra-export-1.csv"`
 
-  - `.\hydrachain-staking-statistics.exe --csv-file-path "C:\Users\itsgo\Desktop\hydra-export-1.csv"`
+<img src=".\pics\example_output_1.png" alt="example_output_1.png" />
 
-  <img src=".\pics\example_output_1.png" alt="example_output_1.png" />
-
-  
-
-  - You can change the **Month End**, **Today** & **Diff** column currencies by providing the `--currency "BGN"` argument.
-  - **Note:** ***When first started***, a prices and currency rates synchronization will be made. It will take some time. That is due to rate limiting from CoinGecko's API. 
-
-- **Feature**:
-  - Option to get the staking statistics by public address
-  - Option to export the full monthly staking statistics data as a json.
-  - Option to visualize only selected columns.
+- You can change the **Month End**, **Today** & **Diff** column currencies by providing the `--currency "BGN"` argument.
+- **Note:** ***When first started***, a prices and currency rates synchronization will be made. It will take some time. That is due to rate limiting from CoinGecko's API. 
 
 
 
-- **References:**
+## Feature:
+
+- Option to get the staking statistics by public address
+- Option to export the full monthly staking statistics data as a json.
+- Option to visualize only selected columns.
 
 
+
+## References:
 
 **APIs:**
 
@@ -48,7 +48,7 @@ A console based tool for generating staking statistics from a exported csv file.
 
 
 
-- **Feedback**:
+## Feedback:
 
 **If there are any problems**, please start the program in debug mode by passing the `--log-level "DEBUG"` argument. The log contains detailed information about the state of the program. Open a pull request with the provided log.
 
