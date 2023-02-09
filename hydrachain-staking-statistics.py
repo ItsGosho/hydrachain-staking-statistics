@@ -7,11 +7,13 @@ import usd_rates
 from prettytable import PrettyTable as pt
 import logging
 import hydra_extended_statistics
+import arguments
 
-logging.basicConfig(level=logging.INFO)
-WORKING_CURRENCY = "BGN"
+hydrachainArguments = arguments.HydraChainArguments()
+logging.basicConfig(level=hydrachainArguments.getLogLevel())
+WORKING_CURRENCY = hydrachainArguments.getCurrency()
 
-transactions = hydra_export_reader.readTransactions(r'C:\Users\itsgo\Desktop\hydra-export-1.csv')
+transactions = hydra_export_reader.readTransactions(hydrachainArguments.getCSVFilePath())
 usdToSelectedCurrencyRate = usd_rates.fetchCurrentUSDRates()[WORKING_CURRENCY]
 hydraPriceTodayUSD = hydra_prices.getCurrentHydraPrice()
 hydra_prices.synchronizeAllMonthsPricesForLastMonthDay()

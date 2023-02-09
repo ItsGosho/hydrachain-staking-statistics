@@ -11,7 +11,9 @@ class MonthlyStakingStatistic:
                  totalIncomeHydra = 0,
                  lowestBlock = 0,
                  highestBlock = 0,
-                 avgBlock = 0
+                 avgBlock = 0,
+                 avgIncomeHydra = 0, #Per Day
+                 avgTransactions = 0 #Per Day
                  ):
         self.month = month
         self.totalTransactions = totalTransactions
