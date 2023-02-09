@@ -15,7 +15,9 @@ A console based tool for generating staking statistics from a exported csv file.
 
   - `.\hydrachain-staking-statistics.exe --csv-file-path "C:\Users\itsgo\Desktop\hydra-export-1.csv"`
 
-  ![](.\pics\example_output_1.png)
+  <img src=".\pics\example_output_1.png" alt="example_output_1.png" />
+
+  
 
   - You can change the **Month End**, **Today** & **Diff** column currencies by providing the `--currency "BGN"` argument.
   - **Note:** ***When first started***, a prices and currency rates synchronization will be made. It will take some time. That is due to rate limiting from CoinGecko's API. 
