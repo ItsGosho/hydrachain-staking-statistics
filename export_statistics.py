@@ -1,7 +1,7 @@
 import json
 import sys
 
-import hydra_export_reader
+import export_reader
 
 
 class MonthlyStakingStatistic:

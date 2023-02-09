@@ -1,10 +1,10 @@
-import hydra_export_reader
-import hydra_export_statistics
-import hydra_prices
-import usd_rates
+import export_reader
+import export_statistics
+import prices
+import rates
 from prettytable import PrettyTable as pt
 import logging
-import hydra_extended_statistics
+import extended_statistics
 import arguments
 
 LOG_FORMAT = '[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s'
@@ -17,27 +17,27 @@ logging.info("Hydrachain Staking Statistics v%s", HYDRACHAIN_STAKING_STATISTICS_
 logging.debug('Provided arguments %s', hydrachainArguments.getArguments())
 
 currency = hydrachainArguments.getCurrency()
-transactions = hydra_export_reader.readTransactions(hydrachainArguments.getCSVFilePath())
+transactions = export_reader.readTransactions(hydrachainArguments.getCSVFilePath())
 logging.debug('Read transactions %s', transactions)
 
-usdToSelectedCurrencyRate = usd_rates.fetchCurrentUSDRates()[currency]
+usdToSelectedCurrencyRate = rates.fetchCurrentUSDRates()[currency]
 logging.debug('Fetched usd to selected currency rates for selected currency %s are %s', currency, usdToSelectedCurrencyRate)
 
-hydraPriceTodayUSD = hydra_prices.getCurrentHydraPrice()
+hydraPriceTodayUSD = prices.getCurrentHydraPrice()
 logging.debug('Hydra price today is %s', hydraPriceTodayUSD)
 
-hydra_prices.synchronizeAllMonthsPricesForLastMonthDay()
-hydraLastDayOfMonthPrices = hydra_prices.getAllLastDayOfMonthPricesFormatted()
+prices.synchronizeAllMonthsPricesForLastMonthDay()
+hydraLastDayOfMonthPrices = prices.getAllLastDayOfMonthPricesFormatted()
 logging.debug('All hydra last day of month prices formatted %s', hydraLastDayOfMonthPrices)
 
-usd_rates.synchronizeAllMonthsPricesForLastMonthDay()
-usdRatesLastDayOfMonth = usd_rates.getAllLastDayOfMonthPricesFormatted()
+rates.synchronizeAllMonthsPricesForLastMonthDay()
+usdRatesLastDayOfMonth = rates.getAllLastDayOfMonthPricesFormatted()
 logging.debug('All usd rates last day of month formatted %s', hydraLastDayOfMonthPrices)
 
-monthlyStakingStatistics = hydra_export_statistics.getMonthlyStakingStatistics(transactions)
+monthlyStakingStatistics = export_statistics.getMonthlyStakingStatistics(transactions)
 logging.debug('Monthly staking statistics: %s', hydraLastDayOfMonthPrices)
 
-monthlyStakingExtendedStatistics = hydra_extended_statistics.getMonthlyStakingExtendedStatistics(
+monthlyStakingExtendedStatistics = extended_statistics.getMonthlyStakingExtendedStatistics(
     monthlyStakingStatistics,
     hydraLastDayOfMonthPrices,
     usdRatesLastDayOfMonth,

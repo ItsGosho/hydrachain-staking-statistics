@@ -1,6 +1,6 @@
 import json
 
-from hydra_export_statistics import MonthlyStakingStatistic, getMonthlyStakingStatistics
+from export_statistics import MonthlyStakingStatistic, getMonthlyStakingStatistics
 
 
 class MonthlyStakingExtendedStatistics(MonthlyStakingStatistic):
