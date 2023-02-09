@@ -1,4 +1,5 @@
 import export_reader
+import explorer_reader
 import export_statistics
 import prices
 import rates
@@ -16,10 +17,18 @@ logging.basicConfig(level=hydrachainArguments.getLogLevel(), format=LOG_FORMAT)
 logging.info("Hydrachain Staking Statistics v%s", HYDRACHAIN_STAKING_STATISTICS_VERSION)
 logging.debug('Provided arguments %s', hydrachainArguments.getArguments())
 
-currency = hydrachainArguments.getCurrency()
-transactions = export_reader.readTransactions(hydrachainArguments.getCSVFilePath())
+transactions = []
+
+if hydrachainArguments.hasAddress():
+    transactions = explorer_reader.readTransactions(hydrachainArguments.getAddress())
+elif hydrachainArguments.hasCSVFilePath():
+    transactions = export_reader.readTransactions(hydrachainArguments.getCSVFilePath())
+else:
+    transactions = []
+
 logging.debug('Read transactions %s', transactions)
 
+currency = hydrachainArguments.getCurrency()
 usdToSelectedCurrencyRate = rates.fetchCurrentUSDRates()[currency]
 logging.debug('Fetched usd to selected currency rates for selected currency %s are %s', currency, usdToSelectedCurrencyRate)
 

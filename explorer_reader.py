@@ -5,8 +5,6 @@ import requests
 
 from export_reader import Transaction
 
-#ADDRESS = "H7FYCLijimtbYk7gdN1hmweftuWLQni3m5"
-
 
 def requestAddressTransactionIds(address, page=0, pageSize=20):
     headers = {
@@ -40,7 +38,8 @@ def requestAllAddressTransactions(address):
 
     return allAddressTransactions
 
-def formatAndFilterMinedTransactions(transactions):
+def readTransactions(address):
+    transactions = requestAllAddressTransactions(address)
 
     formattedAndFilteredTransactions = []
 
@@ -50,10 +49,10 @@ def formatAndFilterMinedTransactions(transactions):
             continue
 
         confirmed = int(transaction['confirmations']) >= 2001
-        date = datetime.fromtimestamp(transaction['timestamp'])
+        date = datetime.fromtimestamp(transaction['timestamp']).date()
         type = 'Mined'
         label = ''
-        address = ADDRESS
+        address = ''
         amount = abs(float(transaction['fees'])) / 100000000
         id = transaction['id']
 
@@ -61,15 +60,3 @@ def formatAndFilterMinedTransactions(transactions):
         formattedAndFilteredTransactions.append(transaction)
 
     return formattedAndFilteredTransactions
-
-# list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-#
-# atTime = 3
-# for j in range(0, len(list), atTime):
-#     print(list[j: j + atTime])
-
-#trans = requestAllAddressTransactions(ADDRESS)
-#print(formatAndFilterMinedTransactions(trans))
-
-
-#print(json.dumps(transactions, indent=4))

@@ -55,6 +55,9 @@ def getMonthlyStakingExtendedStatistics(monthlyStakingStatistics,
             avgBlock=monthlyStakingStatistic.avgBlock,
         )
 
+        if monthlyStakingStatisticDate not in hydraLastDayOfMonthPricesUSD:
+            continue
+
         hydraMonthEndPriceUSD = hydraLastDayOfMonthPricesUSD[monthlyStakingStatisticDate]
         usdToSelectedCurrencyRate = usdRatesLastDayOfMonth[monthlyStakingStatisticDate][selectedCurrency]
         incomeEndMonth = monthlyStakingExtendedStatistic.totalIncomeHydra * hydraMonthEndPriceUSD * usdToSelectedCurrencyRate

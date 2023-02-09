@@ -4,6 +4,7 @@ LOG_LEVEL_DEFAULT = 'INFO'
 CURRENCY_DEFAULT = 'USD'
 
 CSV_FILE_PATH_NAME = 'csv-file-path'
+ADDRESS_NAME = 'address'
 CURRENCY_NAME = 'currency'
 LOG_LEVEL_NAME = 'log-level'
 
@@ -51,12 +52,17 @@ class HydraChainArguments:
 
     def initiailize(self):
         parser = argparse.ArgumentParser(description='Hydrachain Staking Statistics')
+        transactionSourceGroup = parser.add_mutually_exclusive_group(required=True)
 
-        parser.add_argument('--csv-file-path',
+        transactionSourceGroup.add_argument('--csv-file-path',
                             dest=CSV_FILE_PATH_NAME,
                             type=str,
-                            help='Absolute path to the CSV export file from the Hydra GUI.',
-                            required=True)
+                            help='Absolute path to the CSV export file from the Hydra GUI.')
+
+        transactionSourceGroup.add_argument('--address',
+                            dest=ADDRESS_NAME,
+                            type=str,
+                            help='Hydra address')
 
         parser.add_argument('--currency',
                             dest=CURRENCY_NAME,
@@ -78,6 +84,9 @@ class HydraChainArguments:
     def getCSVFilePath(self):
         return self.getArgument(CSV_FILE_PATH_NAME)
 
+    def getAddress(self):
+        return self.getArgument(ADDRESS_NAME)
+
     def getCurrency(self):
         return self.getArgument(CURRENCY_NAME)
 
@@ -89,3 +98,9 @@ class HydraChainArguments:
 
     def getArguments(self):
         return self.arguments
+
+    def hasCSVFilePath(self):
+        return self.getCSVFilePath() != None
+
+    def hasAddress(self):
+        return self.getAddress() != None
