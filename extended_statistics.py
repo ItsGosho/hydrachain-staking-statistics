@@ -12,17 +12,21 @@ class MonthlyStakingExtendedStatistics(MonthlyStakingStatistic):
                  lowestBlock=0,
                  highestBlock=0,
                  avgBlock=0,
+                 avgIncomeHydra=0,
+                 avgTransactions=0,
                  hydraMonthEndPriceUSD=0,
                  incomeEndMonth=0,
                  incomeToday=0,
+                 incomeAvg=0,
                  incomeDiff=0,
                  currency=0,
                  usdToCurrencyRate=0
                  ):
-        super().__init__(month, totalTransactions, totalIncomeHydra, lowestBlock, highestBlock, avgBlock)
+        super().__init__(month, totalTransactions, totalIncomeHydra, lowestBlock, highestBlock, avgBlock, avgIncomeHydra, avgTransactions)
         self.hydraMonthEndPriceUSD = hydraMonthEndPriceUSD
         self.incomeEndMonth = incomeEndMonth
         self.incomeToday = incomeToday
+        self.incomeAvg = incomeAvg
         self.incomeDiff = incomeDiff
         self.currency = currency
         self.usdToCurrencyRate = usdToCurrencyRate
@@ -53,6 +57,8 @@ def getMonthlyStakingExtendedStatistics(monthlyStakingStatistics,
             lowestBlock=monthlyStakingStatistic.lowestBlock,
             highestBlock=monthlyStakingStatistic.highestBlock,
             avgBlock=monthlyStakingStatistic.avgBlock,
+            avgIncomeHydra=monthlyStakingStatistic.avgIncomeHydra,
+            avgTransactions=monthlyStakingStatistic.avgTransactions,
         )
 
         if monthlyStakingStatisticDate not in hydraLastDayOfMonthPricesUSD:
@@ -62,11 +68,13 @@ def getMonthlyStakingExtendedStatistics(monthlyStakingStatistics,
         usdToSelectedCurrencyRate = usdRatesLastDayOfMonth[monthlyStakingStatisticDate][selectedCurrency]
         incomeEndMonth = monthlyStakingExtendedStatistic.totalIncomeHydra * hydraMonthEndPriceUSD * usdToSelectedCurrencyRate
         incomeToday = monthlyStakingExtendedStatistic.totalIncomeHydra * hydraTodayPriceUSD * usdToSelectedCurrencyRateToday
+        incomeAvg = monthlyStakingExtendedStatistic.avgIncomeHydra * hydraMonthEndPriceUSD * usdToSelectedCurrencyRateToday
         incomeDiff = incomeToday - incomeEndMonth
 
         monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD = hydraMonthEndPriceUSD
         monthlyStakingExtendedStatistic.incomeEndMonth = incomeEndMonth
         monthlyStakingExtendedStatistic.incomeToday = incomeToday
+        monthlyStakingExtendedStatistic.incomeAvg = incomeAvg
         monthlyStakingExtendedStatistic.incomeDiff = incomeDiff
         monthlyStakingExtendedStatistic.currency = selectedCurrency
         monthlyStakingExtendedStatistic.usdToCurrencyRate = usdToSelectedCurrencyRate

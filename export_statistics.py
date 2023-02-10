@@ -1,5 +1,6 @@
 import json
 import sys
+from calendar import monthrange
 
 import export_reader
 
@@ -13,8 +14,8 @@ class MonthlyStakingStatistic:
                  lowestBlock = 0,
                  highestBlock = 0,
                  avgBlock = 0,
-                 avgIncomeHydra = 0, #Per Day
-                 avgTransactions = 0 #Per Day
+                 avgIncomeHydra = 0,
+                 avgTransactions = 0
                  ):
         self.month = month
         self.totalTransactions = totalTransactions
@@ -22,6 +23,8 @@ class MonthlyStakingStatistic:
         self.lowestBlock = lowestBlock
         self.highestBlock = highestBlock
         self.avgBlock = avgBlock
+        self.avgIncomeHydra = avgIncomeHydra
+        self.avgTransactions = avgTransactions
 
     def __str__(self):
         return json.dumps(self.__dict__, default=str)
@@ -45,6 +48,7 @@ def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
         if transaction.type != "Mined":
             continue
 
+        monthDays = monthrange(transaction.date.year, transaction.date.month)[1]
         month = transaction.date.strftime(dateFormat)
 
         if month not in monthlyStakingStatistics:
@@ -62,6 +66,8 @@ def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
         monthlyStakingStatistic.highestBlock = transaction.amount if transaction.amount > currentHighestBlock else currentHighestBlock
 
         monthlyStakingStatistic.avgBlock = monthlyStakingStatistic.totalIncomeHydra / monthlyStakingStatistic.totalTransactions
+        monthlyStakingStatistic.avgTransactions = monthlyStakingStatistic.totalTransactions / monthDays
+        monthlyStakingStatistic.avgIncomeHydra = monthlyStakingStatistic.totalIncomeHydra / monthDays
 
     return monthlyStakingStatistics
 
