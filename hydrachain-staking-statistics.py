@@ -30,7 +30,8 @@ logging.debug('Read transactions %s', transactions)
 
 currency = hydrachainArguments.getCurrency()
 usdToSelectedCurrencyRate = rates.fetchCurrentUSDRates()[currency]
-logging.debug('Fetched usd to selected currency rates for selected currency %s are %s', currency, usdToSelectedCurrencyRate)
+logging.debug('Fetched usd to selected currency rates for selected currency %s are %s', currency,
+              usdToSelectedCurrencyRate)
 
 hydraPriceTodayUSD = prices.getCurrentHydraPrice()
 logging.debug('Hydra price today is %s', hydraPriceTodayUSD)
@@ -67,7 +68,7 @@ tableMontlyStakingStatistics.field_names = [
     "Avg Transactions",
     "Avg Income {}".format(currency),
     "Month End {}".format(currency),
-    "Today {}".format(currency),
+    "Today ({:.2f} {})".format(hydraPriceTodayUSD * usdToSelectedCurrencyRate, currency),
     "Diff {}".format(currency),
     "Lowest Block",
     "Highest Block",
@@ -84,22 +85,22 @@ for monthlyStakingExtendedStatisticDate in monthlyStakingExtendedStatistics:
     tableMontlyStakingStatistics.add_row([
         monthlyStakingExtendedStatisticDate,
         monthlyStakingExtendedStatistic.totalTransactions,
-        round(monthlyStakingExtendedStatistic.totalIncomeHydra, 2),
-        round(monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD, 2),
-        round(monthlyStakingExtendedStatistic.avgTransactions, 2),
-        round(monthlyStakingExtendedStatistic.avgIncomeHydra, 2),
-        round(monthlyStakingExtendedStatistic.incomeEndMonth, 2),
-        round(monthlyStakingExtendedStatistic.incomeToday, 2),
-        str(round(monthlyStakingExtendedStatistic.incomeDiff, 2)),
-        round(monthlyStakingExtendedStatistic.lowestBlock, 2),
-        round(monthlyStakingExtendedStatistic.highestBlock, 2),
-        round(monthlyStakingExtendedStatistic.avgBlock, 2)
+        "{:.2f}".format(monthlyStakingExtendedStatistic.totalIncomeHydra),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.avgTransactions),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.avgIncomeHydra),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.incomeEndMonth),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.incomeToday),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.incomeDiff),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.lowestBlock),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.highestBlock),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.avgBlock)
     ])
     pass
 
 print(tableMontlyStakingStatistics)
 
-#Overall Staking Statistics
+# Overall Staking Statistics
 
 tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
 tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Today {}".format(currency)]
