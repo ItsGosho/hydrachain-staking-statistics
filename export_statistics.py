@@ -14,8 +14,8 @@ class MonthlyStakingStatistic:
                  lowestBlock = 0,
                  highestBlock = 0,
                  avgBlock = 0,
-                 avgIncomeHydra = 0,
-                 avgTransactions = 0
+                 dailyIncomeHydra = 0,
+                 dailyTransactions = 0
                  ):
         self.month = month
         self.totalTransactions = totalTransactions
@@ -23,8 +23,8 @@ class MonthlyStakingStatistic:
         self.lowestBlock = lowestBlock
         self.highestBlock = highestBlock
         self.avgBlock = avgBlock
-        self.avgIncomeHydra = avgIncomeHydra
-        self.avgTransactions = avgTransactions
+        self.dailyIncomeHydra = dailyIncomeHydra
+        self.dailyTransactions = dailyTransactions
 
     def __str__(self):
         return json.dumps(self.__dict__, default=str)
@@ -66,8 +66,8 @@ def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
         monthlyStakingStatistic.highestBlock = transaction.amount if transaction.amount > currentHighestBlock else currentHighestBlock
 
         monthlyStakingStatistic.avgBlock = monthlyStakingStatistic.totalIncomeHydra / monthlyStakingStatistic.totalTransactions
-        monthlyStakingStatistic.avgTransactions = monthlyStakingStatistic.totalTransactions / monthDays
-        monthlyStakingStatistic.avgIncomeHydra = monthlyStakingStatistic.totalIncomeHydra / monthDays
+        monthlyStakingStatistic.dailyTransactions = monthlyStakingStatistic.totalTransactions / monthDays
+        monthlyStakingStatistic.dailyIncomeHydra = monthlyStakingStatistic.totalIncomeHydra / monthDays
 
     return monthlyStakingStatistics
 
