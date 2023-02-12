@@ -42,9 +42,15 @@ def getAllLastDayOfMonthPricesFormatted():
 
     return lastDayOfMonthPricesFormatted
 
-
 def fetchCurrentUSDRates():
-    return _fetchRates('USD', datetime.now())
+    return fetchCurrentRates('USD')
+
+def fetchCurrentRates(base):
+    url = f"https://api.exchangerate.host/latest?base={base}"
+    response = requests.get(url)
+    data = response.json()
+
+    return data['rates']
 
 
 def _fetchUSDRates(date):
