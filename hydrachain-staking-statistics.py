@@ -83,7 +83,7 @@ for monthlyStakingExtendedStatisticDate in monthlyStakingExtendedStatistics:
     totalIncomeHydraOverall += monthlyStakingExtendedStatistic.totalIncomeHydra
 
     tableMontlyStakingStatistics.add_row([
-        monthlyStakingExtendedStatisticDate,
+        "{}/{}{}".format(monthlyStakingExtendedStatisticDate.month, monthlyStakingExtendedStatisticDate.year, "*" if monthlyStakingExtendedStatisticDate.isTodayMonthAndYear() else ""),
         monthlyStakingExtendedStatistic.totalTransactions,
         "{:.2f}".format(monthlyStakingExtendedStatistic.totalIncomeHydra),
         "{:.2f}".format(monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD),

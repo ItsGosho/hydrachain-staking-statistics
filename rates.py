@@ -37,8 +37,9 @@ def getAllLastDayOfMonthPricesFormatted():
     lastDayOfMonthPricesFormatted = {}
 
     for lastDayOfMonthPrice in allLastDayOfMonthPrices:
-        date = '{d.month}/{d.year}'.format(d=datetime.strptime(lastDayOfMonthPrice['date'], '%d-%m-%Y'))
-        lastDayOfMonthPricesFormatted[date] = lastDayOfMonthPrice['rates']
+        date = datetime.strptime(lastDayOfMonthPrice['date'], '%d-%m-%Y')
+        yearMonth = date_utils.YearMonth(date.year, date.month)
+        lastDayOfMonthPricesFormatted[yearMonth] = lastDayOfMonthPrice['rates']
 
     return lastDayOfMonthPricesFormatted
 

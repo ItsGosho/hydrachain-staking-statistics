@@ -29,13 +29,13 @@ A console based tool for generating staking statistics from a exported csv file.
 
 | Column                   | Description                                                  |
 | ------------------------ | ------------------------------------------------------------ |
-| Month                    | The month for which the transactions statistics in the row are for. |
+| Month                    | The month for which the transactions statistics in the row are for. There is a ***** at the end of the month if the month is the current one. |
 | Transactions             | The total staking transactions for the month.                |
 | Mined                    | The total staking hydra income for the month.                |
-| Month End Price USD      | The hydra price at the last day of the month, which is used to calculate some of the columns. |
-| Month End *CURRENCY*     | The total staking earnings by the hydra price at the last day of the month in a selected currency. |
+| Month End Price USD      | The hydra price at the last day of the month, which is used to calculate some of the columns. The value will be 0 if the month is not yet finished. |
+| Month End *CURRENCY*     | The total staking earnings by the hydra price at the last day of the month in a selected currency. The value will be 0 if the month is not yet finished. |
 | Today *(PRICE CURRENCY)* | The total staking earnings by the today hydra price in a selected currency. |
-| Diff *CURRENCY*          | The total win/lose of hydra price change by Month End *CURRENCY* and Today *CURRENCY* in selected currency. |
+| Diff *CURRENCY*          | The total win/lose of hydra price change by Month End *CURRENCY* and Today *CURRENCY* in selected currency. The value will be 0 if the month is not yet finished. |
 | Lowest Block             | The lowest mined block for the month.                        |
 | Highest Block            | The highest mined block for the month.                       |
 | Avg Block                | The average mined block for the month                        |

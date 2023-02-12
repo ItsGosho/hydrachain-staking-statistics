@@ -1,14 +1,16 @@
 import json
 import sys
 from calendar import monthrange
+from datetime import datetime
 
+import date_utils
 import export_reader
 
 
 class MonthlyStakingStatistic:
 
     def __init__(self,
-                 month='',
+                 yearMonth,
                  totalTransactions = 0,
                  totalIncomeHydra = 0,
                  lowestBlock = 0,
@@ -17,7 +19,7 @@ class MonthlyStakingStatistic:
                  dailyIncomeHydra = 0,
                  dailyTransactions = 0
                  ):
-        self.month = month
+        self.yearMonth = yearMonth
         self.totalTransactions = totalTransactions
         self.totalIncomeHydra = totalIncomeHydra
         self.lowestBlock = lowestBlock
@@ -33,13 +35,15 @@ class MonthlyStakingStatistic:
     def __repr__(self):
         return json.dumps(self.__dict__, default=str)
 
+
+
 """
 Create a monthly statistics of the provided transactions and returns a dict of MonthlyStakingStatistic objects.
 Only information for Mined transactions will take place in the statistics.
 The price is hydra's last day of the month price
 Dict will be returned, where the key is a date in the provided dateFormat. Default is 06/2022 (%#m/%Y)
 """
-def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
+def getMonthlyStakingStatistics(transactions):
 
     monthlyStakingStatistics = {}
 
@@ -48,13 +52,12 @@ def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
         if transaction.type != "Mined":
             continue
 
-        monthDays = monthrange(transaction.date.year, transaction.date.month)[1]
-        month = transaction.date.strftime(dateFormat)
+        yearMonth = date_utils.YearMonth(transaction.date.year, transaction.date.month)
 
-        if month not in monthlyStakingStatistics:
-            monthlyStakingStatistics[month] = MonthlyStakingStatistic(month = month)
+        if yearMonth not in monthlyStakingStatistics:
+            monthlyStakingStatistics[yearMonth] = MonthlyStakingStatistic(yearMonth=yearMonth)
 
-        monthlyStakingStatistic = monthlyStakingStatistics[month]
+        monthlyStakingStatistic = monthlyStakingStatistics[yearMonth]
 
         monthlyStakingStatistic.totalTransactions += 1
         monthlyStakingStatistic.totalIncomeHydra += transaction.amount
@@ -66,8 +69,9 @@ def getMonthlyStakingStatistics(transactions, dateFormat = '%#m/%Y'):
         monthlyStakingStatistic.highestBlock = transaction.amount if transaction.amount > currentHighestBlock else currentHighestBlock
 
         monthlyStakingStatistic.avgBlock = monthlyStakingStatistic.totalIncomeHydra / monthlyStakingStatistic.totalTransactions
-        monthlyStakingStatistic.dailyTransactions = monthlyStakingStatistic.totalTransactions / monthDays
-        monthlyStakingStatistic.dailyIncomeHydra = monthlyStakingStatistic.totalIncomeHydra / monthDays
+
+        monthlyStakingStatistic.dailyTransactions = monthlyStakingStatistic.totalTransactions / yearMonth.getPassedDays()
+        monthlyStakingStatistic.dailyIncomeHydra = monthlyStakingStatistic.totalIncomeHydra / yearMonth.getPassedDays()
 
     return monthlyStakingStatistics
 
