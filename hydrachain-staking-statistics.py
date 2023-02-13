@@ -81,17 +81,18 @@ for monthlyStakingExtendedStatisticDate in monthlyStakingExtendedStatistics:
 
     totalTransactionsOverall += monthlyStakingExtendedStatistic.totalTransactions
     totalIncomeHydraOverall += monthlyStakingExtendedStatistic.totalIncomeHydra
+    isTodayMonthAndYear = monthlyStakingExtendedStatisticDate.isTodayMonthAndYear()
 
     tableMontlyStakingStatistics.add_row([
-        "{}/{}{}".format(monthlyStakingExtendedStatisticDate.month, monthlyStakingExtendedStatisticDate.year, "*" if monthlyStakingExtendedStatisticDate.isTodayMonthAndYear() else ""),
+        "{}/{}{}".format(monthlyStakingExtendedStatisticDate.month, monthlyStakingExtendedStatisticDate.year, "*" if isTodayMonthAndYear else ""),
         monthlyStakingExtendedStatistic.totalTransactions,
         "{:.2f}".format(monthlyStakingExtendedStatistic.totalIncomeHydra),
         "{:.2f}".format(monthlyStakingExtendedStatistic.dailyTransactions),
         "{:.2f}".format(monthlyStakingExtendedStatistic.dailyIncomeHydra),
-        "{:.2f}$".format(monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD),
-        "{:.2f}".format(monthlyStakingExtendedStatistic.incomeEndMonth),
+        "{:.2f}$".format(monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD) if monthlyStakingExtendedStatistic.hydraMonthEndPriceUSD != 0 and not isTodayMonthAndYear else "-",
+        "{:.2f}".format(monthlyStakingExtendedStatistic.incomeEndMonth) if monthlyStakingExtendedStatistic.incomeEndMonth != 0 and not isTodayMonthAndYear else "-",
         "{:.2f}".format(monthlyStakingExtendedStatistic.incomeToday),
-        "{:.2f}".format(monthlyStakingExtendedStatistic.incomeDiff),
+        "{:.2f}".format(monthlyStakingExtendedStatistic.incomeDiff) if monthlyStakingExtendedStatistic.incomeDiff != 0 and not isTodayMonthAndYear else "-",
         "{:.2f}".format(monthlyStakingExtendedStatistic.lowestBlock),
         "{:.2f}".format(monthlyStakingExtendedStatistic.highestBlock),
         "{:.2f}".format(monthlyStakingExtendedStatistic.avgBlock)
