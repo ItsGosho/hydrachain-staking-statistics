@@ -18,6 +18,7 @@ A console based tool for generating staking statistics from a exported csv file.
 
 <img src=".\pics\example_output_1.png" alt="example_output_1.png" />
 
+- *The example output in the image is taken from a random address!*
 - You can change the **Month End**, **Today** & **Diff** column currencies by providing the `--currency "BGN"` argument.
 - **Note:** When first started, a prices and currency rates synchronization will be made. It will take some time. That is due to rate limiting from CoinGecko's API. 
 
@@ -27,26 +28,28 @@ A console based tool for generating staking statistics from a exported csv file.
 
 - **Monthly Staking Statistics:**
 
-| Column                   | Description                                                  |
-| ------------------------ | ------------------------------------------------------------ |
-| Month                    | The month for which the transactions statistics in the row are for. There is a ***** at the end of the month if the month is the current one. |
-| Transactions             | The total staking transactions for the month.                |
-| Mined                    | The total staking hydra income for the month.                |
-| Month End Price USD      | The hydra price at the last day of the month, which is used to calculate some of the columns. The value will be 0 if the month is not yet finished. |
-| Month End *CURRENCY*     | The total staking earnings by the hydra price at the last day of the month in a selected currency. The value will be 0 if the month is not yet finished. |
-| Today *(PRICE CURRENCY)* | The total staking earnings by the today hydra price in a selected currency. |
-| Diff *CURRENCY*          | The total win/lose of hydra price change by Month End *CURRENCY* and Today *CURRENCY* in selected currency. The value will be 0 if the month is not yet finished. |
-| Lowest Block             | The lowest mined block for the month.                        |
-| Highest Block            | The highest mined block for the month.                       |
-| Avg Block                | The average mined block for the month                        |
+| Column                          | Description                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| Month                           | The month for which the transactions statistics in the row are for. There is a ***** at the end of the month if the month is the current one. |
+| Transactions                    | The total staking transactions for the month.                |
+| Mined                           | The total staking hydra income for the month.                |
+| Daily Transactions              | The average transactions per day for the month. If the month is not yet finished, then it is calculated by the passed days of the month. |
+| Daily Mined                     | The average mined per day for the month. If the month is not yet finished, then it is calculated by the passed days of the month. |
+| Hydra Monthly Price             | The hydra price at the last day of the month in USD. The value will be **-** if the month is not yet finished. |
+| Income Monthly *CURRENCY*       | The total staking earnings by the hydra price at the last day of the month in a selected currency. The value will be **-** if the month is not yet finished. |
+| Income Today *(PRICE CURRENCY)* | The total staking earnings by the today hydra price in a selected currency. |
+| Income Change *CURRENCY*        | The total win/lose of hydra price change by Income Monthly *CURRENCY* and Income Today *CURRENCY* in selected currency. The value will be **-** if the month is not yet finished. |
+| Lowest Block                    | The lowest mined block for the month.                        |
+| Highest Block                   | The highest mined block for the month.                       |
+| Avg Block                       | The average mined block for the month                        |
 
 - **Overall Staking Statistics:**
 
-| Column           | Description                                                  |
-| ---------------- | ------------------------------------------------------------ |
-| Transactions     | The total staking transactions.                              |
-| Mined            | The total staking hydra income.                              |
-| Today *CURRENCY* | The total staking earning by the today hydra price in a selected currency. |
+| Column                          | Description                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| Transactions                    | The total staking transactions.                              |
+| Mined                           | The total staking hydra income.                              |
+| Income Today *(PRICE CURRENCY)* | The total staking earning by the today hydra price in a selected currency. |
 
 ## Future:
 
