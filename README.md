@@ -43,14 +43,6 @@ A console based tool for generating staking statistics from a exported csv file.
 | Highest Block                   | The highest mined block for the month.                       |
 | Avg Block                       | The average mined block for the month                        |
 
-- **Overall Staking Statistics:**
-
-| Column                          | Description                                                  |
-| ------------------------------- | ------------------------------------------------------------ |
-| Transactions                    | The total staking transactions.                              |
-| Mined                           | The total staking hydra income.                              |
-| Income Today *(PRICE CURRENCY)* | The total staking earning by the today hydra price in a selected currency. |
-
 ## Future:
 
 - Option to get the staking statistics by public address

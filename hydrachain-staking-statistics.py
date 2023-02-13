@@ -99,17 +99,20 @@ for monthlyStakingExtendedStatisticDate in monthlyStakingExtendedStatistics:
     ])
     pass
 
-print(tableMontlyStakingStatistics)
 
-# Overall Staking Statistics
-
-tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
-tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Income Today ({:.2f} {})".format(hydraPriceTodayUSD * usdToSelectedCurrencyRate, currency)]
-tableOverallStakingStatistics.align = "r"
-tableOverallStakingStatistics.add_row([
+tableMontlyStakingStatistics.add_row([
+    "Sum:",
     totalTransactionsOverall,
-    round(totalIncomeHydraOverall, 2),
-    round(totalIncomeHydraOverall * hydraPriceTodayUSD * usdToSelectedCurrencyRate, 2),
+    "{:.2f}".format(totalIncomeHydraOverall),
+    "-",
+    "-",
+    "-",
+    "-",
+    "{:.2f}".format(totalIncomeHydraOverall * hydraPriceTodayUSD * usdToSelectedCurrencyRate),
+    "-",
+    "-",
+    "-",
+    "-",
 ])
 
-print(tableOverallStakingStatistics)
+print(tableMontlyStakingStatistics)
