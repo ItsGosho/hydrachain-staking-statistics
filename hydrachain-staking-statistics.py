@@ -104,7 +104,7 @@ print(tableMontlyStakingStatistics)
 # Overall Staking Statistics
 
 tableOverallStakingStatistics = pt(title="Overall Staking Statistics")
-tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Today {}".format(currency)]
+tableOverallStakingStatistics.field_names = ["Transactions", "Mined", "Income Today ({:.2f} {})".format(hydraPriceTodayUSD * usdToSelectedCurrencyRate, currency)]
 tableOverallStakingStatistics.align = "r"
 tableOverallStakingStatistics.add_row([
     totalTransactionsOverall,
