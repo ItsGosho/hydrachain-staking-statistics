@@ -9,7 +9,7 @@ import extended_statistics
 import arguments
 
 LOG_FORMAT = '[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s'
-HYDRACHAIN_STAKING_STATISTICS_VERSION = '2.0.0'
+HYDRACHAIN_STAKING_STATISTICS_VERSION = '3.0.0'
 
 hydrachainArguments = arguments.HydraChainArguments()
 
